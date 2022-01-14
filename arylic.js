@@ -10,7 +10,7 @@ const sleep = (ms) => {
 // Helper API Request Method
 function call(host, cmd, callback) {
 	var xhr = new XMLHttpRequest();
-	xhr.onload = callback;
+	xhr.onload = function(data) { console.log(data); };
 	xhr.open("GET", "http://" + host + "/httpapi.asp?command=" + cmd);
 	xhr.send();
 }
@@ -41,6 +41,11 @@ function a_grp_join(master, slaves) {
 // Set device input
 function a_input(master, input) {
 	call(master, "setPlayerCmd:switchmode:" + input);
+}
+
+// Play a URL stream
+function a_stream(master, url) {
+	call(master, "setPlayerCmd:play:" + url);
 }
 
 // Pause playback
@@ -76,5 +81,10 @@ function a_vol(master, vol) {
 // Set playback to preset (0->6)
 function a_preset(master, preset) {
 	call(master, "MCUKeyShortClick:" + preset);
+}
+
+// Power off the device
+function a_poweroff(master, time=0) {
+	call(master, "setShutdown:" + time);
 }
 
